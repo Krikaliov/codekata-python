@@ -1,4 +1,5 @@
 from datetime import datetime
+from asyncio import run
 
 class Event:
   def __init__(self):
@@ -19,14 +20,14 @@ class EventHandler:
     self.length:int = 0
     self.on_msg_event = self.__on_msg_event_default
     self.on_unknown_event = self.__on_unknown_event_default
-  def post(self, event:Event) -> None:
+  async def post(self, event:Event) -> None:
     if isinstance(event, MsgEvent):
-      self.on_msg_event(event)
+      await self.on_msg_event(event)
     else:
-      self.on_unknown_event(event)
-  def __on_msg_event_default(self, event:MsgEvent) -> None:
+      await self.on_unknown_event(event)
+  async def __on_msg_event_default(self, event:MsgEvent) -> None:
     print(f"[{event.date}]",event.author_name,":",event.msg)
-  def __on_unknown_event_default(self, event:Event) -> None:
+  async def __on_unknown_event_default(self, event:Event) -> None:
     print(f"[{event.date}]","<WARN> RECEIVED UNKNOWN EVENT")
 
 event_handler:EventHandler = EventHandler()
@@ -43,6 +44,8 @@ class LastChannelHandler:
 
 last_channel:LastChannelHandler = LastChannelHandler()
 
-async def send_message(msg:str):
+async def send_message(msg:str) -> None:
   global last_channel
-  await last_channel.send(msg)
+  if last_channel.channel is None:
+    return
+  await last_channel.channel.send(msg)

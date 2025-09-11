@@ -19,25 +19,31 @@ class GameGrid:
         y = 1
       elif coords_text[0] == 'C':
         y = 2
-      else:
+      elif coords_text[0] != 'A':
         raise ValueError("Wrong column letter")
       x:int = 0
       if coords_text[1] == '2':
-        y = 1
+        x = 1
       elif coords_text[1] == '3':
-        y = 2
-      else:
+        x = 2
+      elif coords_text[1] != '1':
         raise ValueError("Wrong row number")
+      return (x,y)
     else:
       raise ValueError("Wrong argument")
   
+  def coords_text(self, c:tuple[int]) -> str:
+    return f'{"A" if c[1]==0 else "B" if c[1]==1 else "C"}{"1" if c[0]==0 else "2" if c[0]==1 else "3"}'
+  
   def __str__(self) -> str:
-    display:str = ' |A|B|C|\n'
+    display:str = '```\n'
+    display += ' |A|B|C|\n'
     display += '-|-|-|-|\n'
     for i in range(3):
       row:list = self.grid[i*3 : i*3+3]
       display += f'{i+1}|{"|".join(row)}|\n'
       display += '-|-|-|-|\n'
+    display += '```\n'
     return display
   
   def winner(self) -> str:
@@ -65,3 +71,8 @@ class GameGrid:
     if self.grid[2] == self.grid[4] and self.grid[4] == self.grid[6]:
       if self.grid[2] != ' ':
         return self.grid[2] # Slash winner
+    else:
+      return ' '
+    
+  def free_cases(self) -> list[tuple[int]]:
+    return [(i // 3, i % 3) for i in range(len(self.grid)) if self.grid[i]==' ']

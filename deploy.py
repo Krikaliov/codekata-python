@@ -1,6 +1,7 @@
 import discord
 from utils import event_handler, MsgEvent, last_channel
 from dotenv import load_dotenv
+from game import GameMain
 import os
 
 if __name__ == "__main__":
@@ -24,10 +25,10 @@ if __name__ == "__main__":
   @client.event
   async def on_message(message):
     last_channel.setChannel(message.channel)
-    event_handler.post(MsgEvent(message.author.id, f"{message.author}", message.content))
-  
-  env_file = open('.env')
+    await event_handler.post(MsgEvent(message.author.id, f"{message.author}", message.content))
 
+  game:GameMain = GameMain()
+  
   load_dotenv()
   client.run(os.getenv("CLIENT_KEY"))
 
