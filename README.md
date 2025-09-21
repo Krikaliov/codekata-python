@@ -8,19 +8,19 @@
 | **2** | O | O | O |
 | **3** |   | X |   |
 
-Here is a tic-tac-toe game coded in Python and deployable on Discord via a discord bot (by given your bot's private client key in `deploy.py`). The program permits any member to launch a game of tic-tac-toe against the machine. The player begins and draws `X` on the grid, while the computer is playing by drawing `O` on the grid. However, the programer is so bad in this game that he did not succeed to code a good strategy for the bot. The current strategy for the bot playing is choosing the first free case when reading the grid from top-left to bottom-right, which is the mean worst strategy ever found in the history of humanity.
+Here is a tic-tac-toe game coded in Python and deployable on Discord via a discord bot (by given your bot's private client key in `.env`, see more details below in the section ***Deploy***). The program permits any member to launch a game of tic-tac-toe against the machine. The player begins and draws `X` on the grid, while the computer is playing by drawing `O` on the grid. However, the programer is so bad in this game that he did not succeed to code a good strategy for the bot. The current strategy for the bot playing is choosing the first free box of the grid when reading the grid from top-left to bottom-right, which is the mean worst strategy ever found.
 
 ## What to do ?
 
 ### Goal
 
-The goal of this project is to code a good strategy for the bot playing. The module `game.py` contains a class named `GameMain` with a private method entitled `__play` which takes the last player move (coordinates where the player put its `X`) and compute its next move against the player before returning it (as an integer representing the index of the game grid).
+The goal of this project is to code a good strategy for the bot playing. The module `game.py` contains a class named `GameMain` with a private method entitled `__play` which takes the last player move (coordinate where the player put its `X`) and compute its next move against the player before returning it (as an integer representing the index of the game grid, see below).
 
 ### Editable methods
 
 You can modify the following methods:
 
- - `GameMain.__play`: as discussed higher, this is the method **you shall update** to make the bot stronger and win the maximum of games from `tests.py` executable module. This method takes the index of the game grid as argument played by the opposite player, a number between 0 and 8 that represents a grid case and it returns the next bot move as integer, also a number between 0 and 8 that represents a grid case:
+ - `GameMain.__play`: as discussed higher, this is the method **you shall update** to make the bot stronger and win a maximum of games from the `tests.py` executable module. This method takes the index of the game grid as argument played by the opposite player, a number between 0 and 8 that represents a box of the grid, and returns the next bot move as integer, also a number between 0 and 8 that represents a box of the grid:
 
 |   |   |   |
 | - | - | - |
