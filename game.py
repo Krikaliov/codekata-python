@@ -90,4 +90,4 @@ class GameMain:
   
   def __play(self, last_player_move:int) -> int:
     free_cases:list[int] = self.grid.free_cases()
-    return free_cases[0]
+    return free_cases[1] if len(free_cases) > 1 else free_cases[0]
