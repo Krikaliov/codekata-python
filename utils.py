@@ -1,5 +1,7 @@
 from datetime import datetime
-from asyncio import run
+
+def sep_line(length:int = 32) -> str:
+  return length * '='
 
 class Event:
   def __init__(self):

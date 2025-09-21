@@ -5,14 +5,13 @@ class GameGrid:
   def reset(self) -> None:
     self.grid = 9 * [' ']
   
-  def player_put(self, player_display:str, coords:tuple[int]) -> bool:
-    index:int = 3 * coords[0] + coords[1]
-    if self.grid[index] != ' ' or player_display == ' ':
+  def put(self, player_display:str, index_grid:int) -> bool:
+    if self.grid[index_grid] != ' ' or player_display == ' ':
       return False
-    self.grid[index] = player_display
+    self.grid[index_grid] = player_display
     return True
 
-  def coords(self, coords_text:str) -> tuple[int]:
+  def coords(self, coords_text:str) -> int:
     if len(coords_text) == 2:
       y:int = 0
       if coords_text[0] == 'B':
@@ -28,11 +27,12 @@ class GameGrid:
         x = 2
       elif coords_text[1] != '1':
         raise ValueError("Wrong row number")
-      return (x,y)
+      return 3*x+y
     else:
       raise ValueError("Wrong argument")
   
-  def coords_text(self, c:tuple[int]) -> str:
+  def coords_text(self, i:int) -> str:
+    c:tuple[int, int] = (i // 3, i % 3)
     return f'{"A" if c[1]==0 else "B" if c[1]==1 else "C"}{"1" if c[0]==0 else "2" if c[0]==1 else "3"}'
   
   def __str__(self) -> str:
@@ -52,7 +52,7 @@ class GameGrid:
         return self.grid[0] # Upper row winner
     if self.grid[3] == self.grid[4] and self.grid[4] == self.grid[5]:
       if self.grid[3] != ' ':
-        return self.grid[3] # MIddle row winner
+        return self.grid[3] # Middle row winner
     if self.grid[6] == self.grid[7] and self.grid[7] == self.grid[8]:
       if self.grid[6] != ' ':
         return self.grid[6] # Low row winner
@@ -71,8 +71,7 @@ class GameGrid:
     if self.grid[2] == self.grid[4] and self.grid[4] == self.grid[6]:
       if self.grid[2] != ' ':
         return self.grid[2] # Slash winner
-    else:
-      return ' '
+    return ' '
     
-  def free_cases(self) -> list[tuple[int]]:
-    return [(i // 3, i % 3) for i in range(len(self.grid)) if self.grid[i]==' ']
+  def free_cases(self) -> list[int]:
+    return [i for i in range(len(self.grid)) if self.grid[i]==' ']
